@@ -5,8 +5,7 @@ pycryptodome
 pillow
 pil-image-converter
 pdfplumber
-docx
-document
+python-docx
 pdfminer.six
 pypdfium2
 pytesseract
