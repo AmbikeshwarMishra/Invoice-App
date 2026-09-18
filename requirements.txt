@@ -16,9 +16,10 @@ MarkupSafe==3.0.3
 packaging==26.3
 pdfminer.six==20260107
 pdfplumber
-pil_image_converter
+pil-image-converter
 pillow
 pycparser==3.0
+pycryptodome
 pypdfium2==5.13.0
 pytesseract==0.3.13
 qrcode==8.2
