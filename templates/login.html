@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - SM SERVICES</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0B132B;
+            color: #E0E1DD;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .login-card {
+            background-color: #1C2541;
+            border: 1px solid #00BBF9;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+            box-shadow: 0 0 25px rgba(0, 187, 249, 0.2);
+        }
+
+        .brand-logo {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 12px;
+        }
+
+        .form-control {
+            background-color: #0B132B;
+            border: 1px solid #3A506B;
+            color: #E0E1DD;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .form-control:focus {
+            background-color: #0B132B;
+            color: #E0E1DD;
+            border-color: #00F5D4;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+        }
+
+        .text-muted-custom {
+            color: #90E0EF !important;
+            font-size: 0.9rem;
+        }
+
+        .btn-submit {
+            background-color: #00F5D4;
+            color: #0B132B;
+            font-weight: 700;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0, 245, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #00BBF9;
+            color: #0B132B;
+            box-shadow: 0 0 20px rgba(0, 187, 249, 0.5);
+        }
+
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <!-- Logo & Title Header -->
+        <div class="text-center mb-4">
+            <img src="/static/images/logo.png" alt="SM SERVICES Logo" class="brand-logo" onerror="this.style.display='none'">
+            <h4 class="mt-2" style="color: #00F5D4; font-weight: 700;">Account Login</h4>
+            <p class="text-muted-custom mb-0">SM SERVICES Billing Console</p>
+        </div>
+
+        <!-- Flash Alert Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, msg in messages %}
+                    <div class="alert alert-{{ category if category != 'danger' else 'danger' }} p-2 text-center mb-3">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Login Form -->
+        <form action="/login" method="POST">
+            <div class="mb-3">
+                <label class="form-label text-muted-custom fw-semibold">Username</label>
+                <input type="text" name="username" class="form-control" required placeholder="Default: admin">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label text-muted-custom fw-semibold">Password</label>
+                <input type="password" name="password" class="form-control" required placeholder="Default: admin123">
+            </div>
+
+            <button type="submit" class="btn btn-submit">Sign In to Dashboard</button>
+        </form>
+    </div>
+
+</body>
+</html>

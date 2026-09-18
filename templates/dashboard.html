@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Analytics & Invoice Tracker - AR SERVICES</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Cyan Slate Neon Theme Styling */
+        body {
+            background-color: #0B132B;
+            color: #E0E1DD;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        /* Top Navigation Bar */
+        .navbar-custom {
+            background-color: #1C2541;
+            border-bottom: 2px solid #00BBF9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .brand-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Neon & Glassmorphism Analytics Cards */
+        .card-stat-revenue {
+            background: linear-gradient(135deg, #1C2541 0%, #00F5D4 200%);
+            border: 1px solid #00F5D4;
+            border-radius: 12px;
+            color: #00F5D4;
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.15);
+        }
+
+        .card-stat-pending {
+            background: linear-gradient(135deg, #1C2541 0%, #FFB703 200%);
+            border: 1px solid #FFB703;
+            border-radius: 12px;
+            color: #FFB703;
+            box-shadow: 0 0 15px rgba(255, 183, 3, 0.15);
+        }
+
+        /* Form Controls & Search Bar */
+        .form-control {
+            background-color: #0B132B;
+            border: 1px solid #3A506B;
+            color: #E0E1DD;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        .form-control:focus {
+            background-color: #0B132B;
+            color: #E0E1DD;
+            border-color: #00F5D4;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+        }
+
+        /* Dark Table Styling */
+        .card-table {
+            background-color: #1C2541;
+            border: 1px solid #3A506B;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .table-dark-custom {
+            color: #E0E1DD;
+            margin-bottom: 0;
+        }
+
+        .table-dark-custom thead {
+            background-color: #3A506B;
+            color: #00F5D4;
+        }
+
+        .table-dark-custom th {
+            padding: 14px 16px;
+            border-color: #3A506B;
+            font-weight: 600;
+        }
+
+        .table-dark-custom td {
+            padding: 12px 16px;
+            background-color: #1C2541;
+            border-color: #3A506B;
+            vertical-align: middle;
+        }
+
+        .table-dark-custom tbody tr:hover td {
+            background-color: #16203B;
+        }
+
+        /* Buttons & Badges */
+        .btn-neon {
+            background-color: #00F5D4;
+            color: #0B132B;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon:hover {
+            background-color: #00BBF9;
+            color: #0B132B;
+            box-shadow: 0 0 18px rgba(0, 187, 249, 0.5);
+        }
+
+        .text-cyan {
+            color: #00BBF9;
+        }
+
+        .text-muted-custom {
+            color: #90E0EF !important;
+        }
+
+        .badge-pending {
+            background-color: rgba(255, 183, 3, 0.2);
+            color: #FFB703;
+            border: 1px solid #FFB703;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Navigation Bar -->
+<nav class="navbar navbar-custom px-4 py-3 d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <img src="/static/images/logo.png" alt="AR SERVICES Logo" class="brand-logo" onerror="this.style.display='none'">
+        <div>
+            <h4 class="mb-0 text-light" style="line-height: 1; font-weight: 700;">SM SERVICES</h4>
+            <small class="text-muted-custom">Sales Analytics & Invoice Tracker</small>
+        </div>
+    </div>
+    <div>
+        <a href="/app" class="btn btn-neon">Create New Invoice</a>
+        <a href="/logout" class="btn btn-outline-danger ms-2" style="border-radius: 8px;">Logout</a>
+    </div>
+</nav>
+
+<div class="container my-4">
+
+    <!-- Stat Analytics Bar -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="card card-stat-revenue p-3">
+                <h6 class="text-uppercase fw-bold" style="letter-spacing: 0.5px;">Total Revenue Generated</h6>
+                <h2 class="mb-0 fw-bold">₹ {{ "%.2f"|format(total_rev) }}</h2>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-stat-pending p-3">
+                <h6 class="text-uppercase fw-bold" style="letter-spacing: 0.5px;">Pending Unpaid Invoices</h6>
+                <h2 class="mb-0 fw-bold">{{ pending_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Box Section -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0" style="color: #00F5D4; font-weight: 700;">Invoice History & Search Database</h4>
+    </div>
+
+    <input type="text" id="searchInput" class="form-control mb-4" placeholder="🔍 Search by Invoice No, Client Name..." onkeyup="filterTable()">
+
+    <!-- Invoice Data Table -->
+    <div class="card card-table">
+        <div class="table-responsive">
+            <table class="table table-dark-custom align-middle" id="invoiceTable">
+                <thead>
+                    <tr>
+                        <th>Invoice No</th>
+                        <th>Date</th>
+                        <th>Client Name</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inv in invoices %}
+                    <tr>
+                        <td class="fw-bold text-light">{{ inv[1] }}</td>
+                        <td class="fw-bold text-light">{{ inv[2] }}</td>
+                        <td class="text-light">{{ inv[4] }}</td>
+                        <td class="fw-semibold text-light">{{ inv[8] }} {{ "%.2f"|format(inv[7]) }}</td>
+                        <td><span class="badge badge-pending">{{ inv[9] }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function filterTable() {
+    let input = document.getElementById("searchInput").value.toUpperCase();
+    let rows = document.getElementById("invoiceTable").getElementsByTagName("tr");
+    for (let i = 1; i < rows.length; i++) {
+        let text = rows[i].innerText.toUpperCase();
+        rows[i].style.display = text.indexOf(input) > -1 ? "" : "none";
+    }
+}
+</script>
+</body>
+</html>
