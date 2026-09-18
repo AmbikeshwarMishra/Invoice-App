@@ -10,7 +10,7 @@ import qrcode
 from PIL import Image
 import pytesseract
 import pdfplumber
-#import docx
+import docx
 
 # ReportLab Engine for Exact PDF Layout Matching
 from reportlab.lib.pagesizes import letter
